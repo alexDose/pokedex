@@ -1,0 +1,120 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #f3f3f3;
+  padding: 16px;
+  width: 180px;
+  border-radius: 30px;
+  transition: box-shadow 0.2s ease-in-out, transform 0.1s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    transform: translateY(3px);
+  }
+
+  &:hover .type {
+    opacity: 1;
+  }
+
+  .type {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    opacity: 0.5;
+    width: 26px;
+    height: 26px;
+    border-radius: 50% 0 50% 0;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.4);
+    transition: 0.2s ease-in-out
+  }
+
+  p {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .infoBlock {
+    width: 100%;
+
+    .main {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+
+      .info {
+        color: rgba(88, 148, 231, 0.84);
+      }
+    }
+  }
+}
+
+.water {
+  background-color: blue;
+}
+.grass {
+  background-color: orange;
+}
+.electric {
+  background-color: lightcyan;
+}
+.psychic {
+  background-color: brown;
+}
+.ice {
+  background-color: aqua;
+}
+.dragon {
+  background-color: red;
+}
+.dark {
+  background-color: black;
+}
+.fairy {
+  background-color: deeppink;
+}
+.unknown {
+  background-color: indigo;
+}
+.shadow {
+  background-color: wheat;
+}
+.normal {
+  background-color: cadetblue;
+}
+.fighting {
+  background-color: darkgreen;
+}
+.flying {
+  background-color: fuchsia;
+}
+.poison {
+  background-color: chartreuse;
+}
+.ground {
+  background-color: chocolate;
+}
+.rock {
+  background-color: darkgray;
+}
+.bug {
+  background-color: darkseagreen;
+}
+.ghost {
+  background-color: blanchedalmond;
+}
+.steel {
+  background-color: cyan;
+}
+.fire {
+  background-color: firebrick;
+}
