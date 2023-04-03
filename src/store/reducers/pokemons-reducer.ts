@@ -75,58 +75,68 @@ export const setPokemon = (pokemon: PokemonType) => {
 
 export const fetchPokemons = (pageSize: number, currentPage: number) => {
   return async (dispatch: ThunkDispatch) => {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?limit=${pageSize}&offset=${pageSize * (currentPage - 1)}`
-    );
-    const data = await response.json();
-    await dispatch(
-      setPokemons(
-        data.results.map((item: PokemonType) => {
-          return {
-            id: getId(item.url),
-            name: item.name
-          };
-        })
-      )
-    );
-    dispatch(setTotalPages(Math.ceil(data.count / pageSize)));
-    dispatch(setIsLoading(false));
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon?limit=${pageSize}&offset=${pageSize * (currentPage - 1)}`
+      );
+      const data = await response.json();
+      dispatch(
+        setPokemons(
+          data.results.map((item: PokemonType) => {
+            return {
+              id: getId(item.url),
+              name: item.name
+            };
+          })
+        )
+      );
+      dispatch(setTotalPages(Math.ceil(data.count / pageSize)));
+    } catch (error) {
+      console.log('error: ', error);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
   };
 };
 export const fetchStats = (id: string) => async (dispatch: ThunkDispatch) => {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-  const data = await response.json();
-  dispatch(
-    setPokemonStats(
-      [data].map((item) => {
-        return {
-          id: item.id,
-          name: item.name,
-          height: item.height,
-          weight: item.weight,
-          experience: item.base_experience,
-          type: item.types[0].type.name
-        };
-      })
-    )
-  );
-};
-export const fetchInfo = (id: string) => {
-  return async (dispatch: ThunkDispatch) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/ability/${id}`);
-    const data = await response.json();
+  try {
+    const data = await Promise.all([
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`),
+      fetch(`https://pokeapi.co/api/v2/ability/${id}`)
+    ]);
+    const stats = await data[0].json();
     dispatch(
-      setPokemonInfo(
-        [data].map((item) => {
+      setPokemonStats(
+        [stats].map((item) => {
           return {
             id: item.id,
-            nameStr: item.name,
-            effectEntries: getEffectEntriesEn(item.effect_entries)
+            name: item.name,
+            height: item.height,
+            weight: item.weight,
+            experience: item.base_experience,
+            type: item.types[0].type.name
           };
         })
       )
     );
-  };
+    if (data[1] !== undefined || data[1] !== null) {
+      const info = await data[1].json();
+      dispatch(
+        setPokemonInfo(
+          [info].map((item) => {
+            return {
+              id: item.id,
+              nameStr: item.name,
+              effectEntries: getEffectEntriesEn(item.effect_entries)
+            };
+          })
+        )
+      );
+    }
+    return;
+  } catch (error) {
+    console.log('error: ', error);
+  }
 };
 
 export type InitialStateType = {

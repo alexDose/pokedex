@@ -14,21 +14,30 @@ import {
   setPageSize,
   setPokemon
 } from './store/reducers/pokemons-reducer';
-import { AppRootStateType, useAppDispatch } from './store/store';
+import { useAppDispatch } from './store/store';
 import { setIsModal } from './store/reducers/app-reducer';
+import {
+  getCurrentPage,
+  getIsLoading,
+  getIsModal,
+  getPageSize,
+  getPokemon,
+  getPokemons,
+  getTotalPages
+} from './store/selectors/selectors';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
 
   const dispatch = useAppDispatch();
 
-  const pokemons = useSelector<AppRootStateType, PokemonType[]>((state) => state.pokemons.pokemons);
-  const currentPage = useSelector<AppRootStateType, number>((state) => state.pokemons.currentPage);
-  const pageSize = useSelector<AppRootStateType, number>((state) => state.pokemons.pageSize);
-  const totalPages = useSelector<AppRootStateType, number>((state) => state.pokemons.totalPages);
-  const isLoading = useSelector<AppRootStateType, boolean>((state) => state.app.isLoading);
-  const isModal = useSelector<AppRootStateType, boolean>((state) => state.app.isModal);
-  const pokemon = useSelector<AppRootStateType, PokemonType>((state) => state.pokemons.pokemon);
+  const pokemons = useSelector(getPokemons);
+  const currentPage = useSelector(getCurrentPage);
+  const pageSize = useSelector(getPageSize);
+  const totalPages = useSelector(getTotalPages);
+  const isLoading = useSelector(getIsLoading);
+  const isModal = useSelector(getIsModal);
+  const pokemon = useSelector(getPokemon);
 
   const getFilteredItems = (items: PokemonType[]) => {
     return items.filter((item) => item.name.toUpperCase().indexOf(searchValue.toUpperCase()) > -1);
@@ -76,9 +85,7 @@ function App() {
           )}
         </div>
       )}
-      {isModal && (
-        <ModalWindow pokemon={pokemon} isModal={isModal} closeModalWindow={closeModalWindow} />
-      )}
+      <ModalWindow pokemon={pokemon} isModal={isModal} closeModalWindow={closeModalWindow} />
     </div>
   );
 }

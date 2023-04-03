@@ -16,8 +16,8 @@ const Pokemon = ({ pokemon, openModalWindow }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const fetch = async () => {
-    await dispatch(fetchStats(pokemon.id.toString()));
+  const fetch = () => {
+    dispatch(fetchStats(pokemon.id.toString()));
     setIsLoading(false);
   };
 
