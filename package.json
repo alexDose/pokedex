@@ -1,6 +1,6 @@
 {
   "name": "pokedex",
-  "homepage": "https://alexDose.github.io/pokemons",
+  "homepage": "https://alexDose.github.io/pokedex",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
